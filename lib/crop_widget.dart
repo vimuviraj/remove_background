@@ -255,6 +255,7 @@ class _ManualRemovalState extends State<ManualRemoval> {
 
 
 
+
 class Sketcher extends CustomPainter {
   final ui.Image? image;
   final BuildContext sketcherContext;
