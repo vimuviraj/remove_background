@@ -181,16 +181,21 @@ class _ManualRemovalState extends State<ManualRemoval> {
 
   List<Offset> points = <Offset>[];
 
+  void undoLastAction() {
+    if (points.isNotEmpty) {
+      setState(() {
+        points.removeLast(); // Remove the last drawn point
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Sketcher sketcher = Sketcher(points, image, context);
     Container sketchArea = Container();
     if (image != null) {
       sketchArea = Container(
-        //margin: EdgeInsets.all(1.0),
-        alignment: Alignment.topLeft,
-        height: image!.height.toDouble(),
-        width: image!.width.toDouble(),
+        // ... (container properties)
         child: CustomPaint(
           size: Size(image!.width.toDouble(), image!.width.toDouble()),
           painter: sketcher,
@@ -209,16 +214,18 @@ class _ManualRemovalState extends State<ManualRemoval> {
             canvas.drawCircle(point, 20.00, paint);
             points = List.from(points)..add(point);
           }
-          // point = point.translate(0.0, -(AppBar().preferredSize.height));
         });
       },
       onPanEnd: (DragEndDetails details) {
-        // points.add(null);
+        setState(() {
+          points.add(Offset.infinite); // Add an infinite point to indicate the end of a stroke
+        });
       },
       child: sketchArea,
     );
   }
 }
+
 
 class Sketcher extends CustomPainter {
   final ui.Image? image;
