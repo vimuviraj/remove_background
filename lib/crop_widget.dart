@@ -185,6 +185,8 @@ class _ManualRemovalState extends State<ManualRemoval> {
     if (points.isNotEmpty) {
       setState(() {
         points.removeLast(); // Remove the last drawn point
+        recorder = ui.PictureRecorder(); // Reset the recorder
+        loadImage(); // Reload the image with updated points
       });
     }
   }
@@ -221,10 +223,36 @@ class _ManualRemovalState extends State<ManualRemoval> {
           points.add(Offset.infinite); // Add an infinite point to indicate the end of a stroke
         });
       },
-      child: sketchArea,
+      child: Column(
+        children: [
+          sketchArea,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    selectedWidgetMarker = WidgetMarker.manual;
+                  });
+                },
+                icon: const Icon(Icons.phonelink_erase_rounded),
+                color: selectedWidgetMarker == WidgetMarker.manual
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey,
+              ),
+              IconButton(
+                onPressed: undoLastAction, // Call the undoLastAction method
+                icon: const Icon(Icons.undo),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
+
 
 
 class Sketcher extends CustomPainter {
