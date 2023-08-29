@@ -154,7 +154,7 @@ class _ManualRemovalState extends State<ManualRemoval> {
 
   var paint = Paint(),
       paint1 = Paint()
-        ..color = Colors.black
+        ..color = Colors.transparent;
         ..strokeCap = StrokeCap.round
         ..strokeWidth = 4.0;
 
